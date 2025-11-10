@@ -74,26 +74,24 @@ pipeline {
         stage('Deploy to Render') {
             steps {
                 script {
+                    // Xác định tag dựa trên branch
                     def tag = env.BRANCH_NAME == 'main' ? 'latest' : env.BRANCH_NAME
 
+                    // Chọn hook URL dựa trên branch
+                    def hookUrl = ''
                     if (env.BRANCH_NAME == 'dev') {
-                        sh """
-                        curl -X POST "${DEPLOY_HOOK_DEV}?imgURL=docker.io%2Fdevopshcmus%2Fsoftware-testing-seminar%3Adev" \
-                             -H "Authorization: Bearer ${RENDER_API_KEY}" \
-                             -H "Content-Type: application/json"
-                        """
+                        hookUrl = "${DEPLOY_HOOK_DEV}&imgURL=docker.io%2Fdevopshcmus%2Fsoftware-testing-seminar%3A${tag}"
                     } else if (env.BRANCH_NAME == 'staging') {
-                        sh """
-                        curl -X POST "${DEPLOY_HOOK_STAGING}?imgURL=docker.io%2Fdevopshcmus%2Fsoftware-testing-seminar%3Astaging" \
-                             -H "Authorization: Bearer ${RENDER_API_KEY}" \
-                             -H "Content-Type: application/json"
-                        """
+                        hookUrl = "${DEPLOY_HOOK_STAGING}&imgURL=docker.io%2Fdevopshcmus%2Fsoftware-testing-seminar%3A${tag}"
                     } else if (env.BRANCH_NAME == 'main') {
-                        sh """
-                        curl -X POST "${DEPLOY_HOOK_PROD}?imgURL=docker.io%2Fdevopshcmus%2Fsoftware-testing-seminar%3Alatest" \
-                             -H "Authorization: Bearer ${RENDER_API_KEY}" \
-                             -H "Content-Type: application/json"
-                        """
+                        hookUrl = "${DEPLOY_HOOK_PROD}&imgURL=docker.io%2Fdevopshcmus%2Fsoftware-testing-seminar%3A${tag}"
+                    }
+
+                    // Gửi request deploy
+                    if (hookUrl) {
+                        sh "curl -X POST '${hookUrl}'"
+                    } else {
+                        echo "⚠️ Branch ${env.BRANCH_NAME} không có deploy hook tương ứng, bỏ qua."
                     }
                 }
             }
