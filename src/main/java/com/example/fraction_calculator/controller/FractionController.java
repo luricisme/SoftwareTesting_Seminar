@@ -90,4 +90,12 @@ public class FractionController {
         public String getError() { return error; }
         public void setError(String error) { this.error = error; }
     }
+
+    // API test dev
+    @GetMapping("/hello-dev")
+    @Operation(summary = "Test hello-dev endpoint")
+    @ApiResponse(responseCode = "200", description = "Trả về thông điệp hello-dev")
+    public ResponseEntity<String> helloDev() {
+        return ResponseEntity.ok("Hello Dev! This is the dev environment.");
+    }
 }
