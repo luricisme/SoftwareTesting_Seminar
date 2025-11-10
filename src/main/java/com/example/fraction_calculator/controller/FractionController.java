@@ -98,4 +98,12 @@ public class FractionController {
     public ResponseEntity<String> helloDev() {
         return ResponseEntity.ok("Hello Dev! This is the dev environment.");
     }
+
+    // API test staging
+    @GetMapping("/hello-staging")
+    @Operation(summary = "Test hello-staging endpoint")
+    @ApiResponse(responseCode = "200", description = "Trả về thông điệp hello-staging")
+    public ResponseEntity<String> helloStaging() {
+        return ResponseEntity.ok("Hello Staging! This is the staging environment.");
+    }
 }
