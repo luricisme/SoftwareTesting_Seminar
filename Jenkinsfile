@@ -45,11 +45,11 @@ pipeline {
             }
         }
 
-        stage('Package') {
-            steps {
-                sh './mvnw clean package -DskipTests'
-            }
-        }
+//         stage('Package') {
+//             steps {
+//                 sh './mvnw clean package -DskipTests'
+//             }
+//         }
 
         stage('Build Docker Image') {
             steps {
