@@ -100,10 +100,10 @@ pipeline {
 
     post {
         success {
-            echo "✅ Build & Deploy SUCCESSFUL for branch ${env.BRANCH_NAME}"
+            echo "🐻‍❄️ Build & Deploy SUCCESSFUL for branch ${env.BRANCH_NAME}"
         }
         failure {
-            echo "❌ Build FAILED for branch ${env.BRANCH_NAME}"
+            echo "😡 Build FAILED for branch ${env.BRANCH_NAME}"
         }
     }
 }
