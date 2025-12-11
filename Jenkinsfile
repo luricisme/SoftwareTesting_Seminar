@@ -42,6 +42,13 @@ pipeline {
                         sourcePattern: '**/src/main/java'
                     )
                 }
+                success {
+                    // Quality Gate: Fail if line coverage < 80%
+                    jacoco(
+                        changeBuildStatus: true,
+                        minimumLineCoverage: '80'
+                    )
+                }
             }
         }
 
